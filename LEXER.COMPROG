@@ -1,0 +1,218 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>  // For rand() and srand()
+#include <time.h>    // For seeding rand()
+
+int main() {
+    int choice, foodChoice, quantity, dineChoice;
+    float total = 0;
+    char items[100][50];
+    int quantities[100];
+    float prices[100];
+    int cartSize = 0;
+
+    // Seed the random number generator
+    srand(time(0));
+
+    printf("=== Welcome to Lex Kiosk ===\n");
+
+    while (1) {
+        printf("\nPlease select a category:\n");
+        printf("1. Burger\n");
+        printf("2. Pasta\n");
+        printf("3. Chicken\n");
+        printf("4. Drink\n");
+        printf("5. Dessert\n");
+        printf("6. Checkout\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        if (choice == 6) {  // Checkout
+            break;
+        }
+
+        char itemName[50];
+        float itemPrice = 0;
+
+        switch (choice) {
+            case 1:
+                printf("\nBurger Menu:\n");
+                printf("1. Cheese Burger - ₱55.99\n");
+                printf("2. Chicken Burger - ₱56.49\n");
+                printf("3. Veggie Burger - ₱57.49\n");
+                printf("Enter your choice: ");
+                scanf("%d", &foodChoice);
+
+                if (foodChoice == 1) {
+                    strcpy(itemName, "Cheese Burger");
+                    itemPrice = 55.99;
+                } else if (foodChoice == 2) {
+                    strcpy(itemName, "Chicken Burger");
+                    itemPrice = 56.49;
+                } else if (foodChoice == 3) {
+                    strcpy(itemName, "Veggie Burger");
+                    itemPrice = 57.49;
+                } else {
+                    printf("Invalid choice.\n");
+                    continue;
+                }
+                break;
+
+            case 2:
+                printf("\nPasta Menu:\n");
+                printf("1. Alfredo Pasta - ₱57.99\n");
+                printf("2. Spaghetti - ₱58.49\n");
+                printf("3. Pesto Pasta - ₱57.49\n");
+                printf("Enter your choice: ");
+                scanf("%d", &foodChoice);
+
+                if (foodChoice == 1) {
+                    strcpy(itemName, "Alfredo Pasta");
+                    itemPrice = 57.99;
+                } else if (foodChoice == 2) {
+                    strcpy(itemName, "Spaghetti");
+                    itemPrice = 58.49;
+                } else if (foodChoice == 3) {
+                    strcpy(itemName, "Pesto Pasta");
+                    itemPrice = 57.49;
+                } else {
+                    printf("Invalid choice.\n");
+                    continue;
+                }
+                break;
+
+            case 3:
+                printf("\nChicken Menu:\n");
+                printf("1. Fried Chicken - ₱26.99\n");
+                printf("2. Grilled Chicken - ₱27.99\n");
+                printf("3. Chicken Wings - ₱25.99\n");
+                printf("Enter your choice: ");
+                scanf("%d", &foodChoice);
+
+                if (foodChoice == 1) {
+                    strcpy(itemName, "Fried Chicken");
+                    itemPrice = 26.99;
+                } else if (foodChoice == 2) {
+                    strcpy(itemName, "Grilled Chicken");
+                    itemPrice = 27.99;
+                } else if (foodChoice == 3) {
+                    strcpy(itemName, "Chicken Wings");
+                    itemPrice = 25.99;
+                } else {
+                    printf("Invalid choice.\n");
+                    continue;
+                }
+                break;
+
+            case 4:
+                printf("\nDrink Menu:\n");
+                printf("1. Soda - ₱11.99\n");
+                printf("2. Juice - ₱12.49\n");
+                printf("3. Water - ₱10.99\n");
+                printf("Enter your choice: ");
+                scanf("%d", &foodChoice);
+
+                if (foodChoice == 1) {
+                    strcpy(itemName, "Soda");
+                    itemPrice = 11.99;
+                } else if (foodChoice == 2) {
+                    strcpy(itemName, "Juice");
+                    itemPrice = 12.49;
+                } else if (foodChoice == 3) {
+                    strcpy(itemName, "Water");
+                    itemPrice = 10.99;
+                } else {
+                    printf("Invalid choice.\n");
+                    continue;
+                }
+                break;
+
+            case 5:
+                printf("\nDessert Menu:\n");
+                printf("1. Ice Cream - ₱23.49\n");
+                printf("2. Cake - ₱24.99\n");
+                printf("3. Brownie - ₱23.99\n");
+                printf("Enter your choice: ");
+                scanf("%d", &foodChoice);
+
+                if (foodChoice == 1) {
+                    strcpy(itemName, "Ice Cream");
+                    itemPrice = 23.49;
+                } else if (foodChoice == 2) {
+                    strcpy(itemName, "Cake");
+                    itemPrice = 24.99;
+                } else if (foodChoice == 3) {
+                    strcpy(itemName, "Brownie");
+                    itemPrice = 23.99;
+                } else {
+                    printf("Invalid choice.\n");
+                    continue;
+                }
+                break;
+
+            default:
+                printf("Invalid category choice.\n");
+                continue;
+        }
+
+        // Ask for quantity
+        printf("\nEnter quantity: ");
+        if (scanf("%d", &quantity) != 1 || quantity <= 0) {
+            printf("Invalid quantity. Try again.\n");
+            continue;
+        }
+
+        // Add to cart
+        int found = 0;
+        for (int i = 0; i < cartSize; i++) {
+            if (strcmp(items[i], itemName) == 0) {
+                quantities[i] += quantity;
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
+            strcpy(items[cartSize], itemName);
+            quantities[cartSize] = quantity;
+            prices[cartSize] = itemPrice;
+            cartSize++;
+        }
+
+        total += itemPrice * quantity;
+
+        // Ask for Dine-In or Take-Out
+        printf("\nDine-In or Take-Out?\n");
+        printf("1. Dine-In\n");
+        printf("2. Take-Out\n");
+        printf("Enter your choice: ");
+        scanf("%d", &dineChoice);
+
+        if (dineChoice == 1) {
+            printf("\nOrder noted for Dine-In.\n");
+        } else if (dineChoice == 2) {
+            printf("\nOrder noted for Take-Out.\n");
+        } else {
+            printf("\nInvalid choice. Defaulting to Take-Out.\n");
+        }
+    }
+
+    // Print receipt
+    printf("\n=== Receipt ===\n");
+    if (total > 0) {
+        for (int i = 0; i < cartSize; i++) {
+            printf("%s (x%d) - ₱%.2f\n", items[i], quantities[i], prices[i] * quantities[i]);
+        }
+        printf("Total Amount: ₱%.2f\n", total);
+
+        // Generate and display priority number
+        int priorityNumber = rand() % 1000 + 1; // Random number between 1 and 1000
+        printf("\nYour priority number: %d\n", priorityNumber);
+        printf("Please wait for the cashier to call your number.\n");
+    } else {
+        printf("You did not purchase anything.\n");
+    }
+
+    printf("\nThank you for using Lex kiosk. Goodbye!\n");
+
+    return 0;
+}
